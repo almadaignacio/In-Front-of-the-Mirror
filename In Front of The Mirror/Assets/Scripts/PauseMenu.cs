@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject MenuPausa;
+    bool PauseMode;
 
     //[SerializeField] private Camera Camara;
 

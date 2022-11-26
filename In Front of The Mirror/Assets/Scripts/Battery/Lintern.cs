@@ -24,7 +24,7 @@ public class Lintern : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LuzLinterna.enabled = false;
+        LuzLinterna.enabled = true;
     }
 
     // Update is called once per frame

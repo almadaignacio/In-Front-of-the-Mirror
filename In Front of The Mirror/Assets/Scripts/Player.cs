@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
+using Unity.UI;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -25,11 +27,24 @@ public class Player : MonoBehaviour
     Transform Cam;
     float yRotation;
 
+
+    private int vida;
+
+    public GameObject  Verde;
+    public GameObject amarillo;
+    public GameObject naranja;
+    public GameObject rojo;
+
+    public GameObject[] BarraVida;
+
+
     //public TMP_Text TextoContador;
 
     // Start is called before the first frame update
     void Start()
     {
+        vida = BarraVida.Length;
+
         /*
         character = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
@@ -74,7 +89,7 @@ public class Player : MonoBehaviour
         //Nos movemos solo si hay una dirección diferente que vector zero.
         if (playerDirection != Vector3.zero) MovePlayer(playerDirection);
 
-       // int ValourBullet = GetComponent<Shooting>().KillCount;
+        // int ValourBullet = GetComponent<Shooting>().KillCount;
 
         /*
         if (puntuacion == 3 && ValourBullet == 4)
@@ -82,11 +97,79 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(Level);
         }
         */
+
+        if (vida >= 4)
+        {
+           
+
+            BarraVida[0].SetActive(true);
+            BarraVida[1].SetActive(false);
+            BarraVida[2].SetActive(false);
+            BarraVida[3].SetActive(false);
+
+        }
+
+        if (vida < 4)
+        {
+            
+
+            BarraVida[0].SetActive(false);
+            BarraVida[1].SetActive(true);
+            BarraVida[2].SetActive(false);
+            BarraVida[3].SetActive(false);
+
+        }
+
+        if (vida < 3)
+        {
+            
+            BarraVida[0].SetActive(false);
+            BarraVida[1].SetActive(false);
+            BarraVida[2].SetActive(true);
+            BarraVida[3].SetActive(false);
+
+        }
+
+        if (vida < 2)
+        {
+            BarraVida[0].SetActive(false);
+            BarraVida[1].SetActive(false);
+            BarraVida[2].SetActive(false);
+            BarraVida[3].SetActive(true);
+
+        }
+
+        if (vida < 1)
+         {
+            SceneManager.LoadScene("You Died");
+        }
     }
     
     private void MovePlayer(Vector3 direction)
     {
         transform.Translate(direction * Speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Arma"))
+        {
+            vida--;
+        }
+
+        if(other.CompareTag("Win"))
+        {
+            SceneManager.LoadScene("The end");
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Healing"))
+        {
+            Destroy(collision.gameObject);
+            vida++;
+        }
     }
 
     /*
